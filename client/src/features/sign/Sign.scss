@@ -1,0 +1,73 @@
+.sign-container {
+  width: 100%;
+  height: 100%;
+  background-color: #8973e9;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sign-form-ctn {
+  width: 100%;
+
+  padding: 0 50px;
+}
+
+.sign {
+  width: 1000px;
+  height: 700px;
+
+  &__left {
+    border-radius: 1rem 0 0 1rem;
+    background-color: white;
+    height: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &__right {
+    border-radius: 0 1rem 1rem 0;
+    background-color: white;
+    height: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__form {
+      &__username input {
+        padding-left: 10px !important;
+      }
+      &__password input {
+        padding-left: 10px !important;
+      }
+      &__btn-sign {
+        background-color: #8973e9 !important;
+        border: none !important;
+        border-radius: 5px !important;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+}
+
+.panel {
+  z-index: 2;
+  position: fixed !important;
+  background-color: #9b88ec;
+  height: 700px;
+  width: 500px;
+  transition: cubic-bezier(0.18, 0.89, 0.32, 1.28) 0.4s;
+  justify-content: center;
+
+  &--left {
+    transform: translateX(0px);
+    border-radius: 0.9rem 0 0 0.9rem;
+  }
+  &--right {
+    transform: translateX(500px);
+    border-radius: 0 0.9rem 0.9rem 0;
+  }
+}
