@@ -15,7 +15,7 @@ const HomePage = () => {
       <Layout className="home-page">
         <Header className="home-page__header">
           <PageHeader
-            onBack={() => window.history.back()}
+            onBack={() => (window.location.href = '/welcome')}
             title="Meet"
             subTitle="Home page"
             extra={[
@@ -47,8 +47,7 @@ const HomePage = () => {
                   <Title>Premium video meetings. Now free for everyone.</Title>
                   <Text type="secondary">
                     We re-engineered the service we built for secure business
-                    meetings, Google Meet, to make it free and available for
-                    all.
+                    meetings, Meet, to make it free and available for all.
                   </Text>
                 </div>
                 <Space className="home-page__content__col__create">
