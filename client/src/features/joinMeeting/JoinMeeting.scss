@@ -1,3 +1,9 @@
+.join-meeting-form {
+  & .ant-row {
+    margin: 0 !important;
+  }
+}
+
 .join-meeting-input {
   border: 1px solid #eee !important;
   border-radius: 5px !important;
