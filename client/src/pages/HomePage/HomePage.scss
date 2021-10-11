@@ -6,6 +6,12 @@
 .home-page {
   &__header {
     background-color: white !important;
+
+    & .ant-page-header-back-button {
+      &:hover {
+        color: #8973e9 !important;
+      }
+    }
   }
 
   &__content {
