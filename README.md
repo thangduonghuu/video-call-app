@@ -21,7 +21,7 @@
 
 ### Before join
 
-![image](https://user-images.githubusercontent.com/75214138/140063429-fc043c06-3d3a-4997-a3ea-1f55e7c10be8.png)
+![image](https://user-images.githubusercontent.com/75214138/140063646-f8e16b8a-b22e-4ffa-9fdf-0aeaa55a6fe6.png)
 
 
 ### Chat room
