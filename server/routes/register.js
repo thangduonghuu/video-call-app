@@ -8,7 +8,6 @@ router.get("/", functionAutho.checkNotAuthenticated, (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  console.log('hello');
   let User = new User_Schema(req.body);
   await User.save(function (err, result) {
     if (err) {
@@ -17,6 +16,6 @@ router.post("/", async (req, res) => {
       console.log(result);
     }
   });
-  res.send({ redirect: "/login" });
+  res.send({ isSuccess: true });
 });
 module.exports = router;

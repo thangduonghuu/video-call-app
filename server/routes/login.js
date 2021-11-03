@@ -10,7 +10,6 @@ router.get("/", functionAutho.checkNotAuthenticated, (req, res) => {
 });
 
 router.post("/", passport.authenticate("local"), function (req, res) {
-  console.log("login is call");
   res.send({ id: user.ID, redirect: "/home" });
 });
 
