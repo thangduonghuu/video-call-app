@@ -4,7 +4,7 @@ import SignInIcon from 'lotties/sign-in.json';
 import { FC, useState } from 'react';
 import SignUp from 'features/signUp/SignUp';
 import SignIn from 'features/signIn/SignIn';
-
+import './Sign.scss'
 const Sign = () => {
   const [isShowSignIn, setIsShowSignIn] = useState(true);
 
