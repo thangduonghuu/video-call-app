@@ -6,6 +6,8 @@ import {
   AudioMutedOutlined,
 } from '@ant-design/icons';
 import './BeforeJoin.scss';
+import Micro from 'features/micro/Micro';
+import Camera from 'features/camera/Camera';
 
 const { Content, Header } = Layout;
 const { Title } = Typography;
@@ -26,7 +28,7 @@ const BeforeJoin = () => {
               <Space size="middle">
                 <Title level={5}>Alex Sander</Title>
                 <Avatar
-                size="large"
+                  size="large"
                   style={{
                     backgroundColor: '#7265e6',
                     verticalAlign: 'middle',
@@ -51,40 +53,8 @@ const BeforeJoin = () => {
           >
             <Col>
               <div class="video-box">
-                {enableMic ? (
-                  <Button
-                    icon={<AudioOutlined />}
-                    shape="circle"
-                    size="large"
-                    onClick={() => setEnableMic(false)}
-                  />
-                ) : (
-                  <Button
-                    icon={<AudioMutedOutlined />}
-                    shape="circle"
-                    size="large"
-                    danger
-                    onClick={() => setEnableMic(true)}
-                    type="primary"
-                  />
-                )}
-                {enableCam ? (
-                  <Button
-                    icon={<VideoCameraOutlined />}
-                    shape="circle"
-                    size="large"
-                    onClick={() => setEnableCam(false)}
-                  />
-                ) : (
-                  <Button
-                    icon={<VideoCameraOutlined />}
-                    shape="circle"
-                    size="large"
-                    danger
-                    onClick={() => setEnableCam(true)}
-                    type="primary"
-                  />
-                )}
+                <Micro />
+                <Camera />
               </div>
             </Col>
             <Col>
