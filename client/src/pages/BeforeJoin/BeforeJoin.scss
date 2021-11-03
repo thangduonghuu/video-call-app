@@ -6,21 +6,26 @@
   position: relative;
   border-radius: 8px;
 
-  & button:first-child {
+  & button {
     position: absolute;
     bottom: 10px;
-    left: 310px;
     height: 50px;
     width: 50px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    color: #fff;
+    border-color: #fff;
+
+    &:hover {
+      color: #fff;
+      border-color: #fff;
+    }
+  }
+
+  & button:first-child {
+    left: 310px;
   }
   & button:last-child {
-    position: absolute;
-    bottom: 10px;
     right: 310px;
-    height: 50px;
-    width: 50px;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   }
 }
 .before-join__control {
