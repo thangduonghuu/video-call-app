@@ -1,12 +1,16 @@
 import { Input, Space, Form, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { FC } from 'react';
+import { useAppDispatch } from 'app/hooks';
+import { signIn } from './signInSlice';
 
 const SignIn: FC<{
   setState: React.Dispatch<React.SetStateAction<boolean>>;
 }> = (props) => {
+  const dispatch = useAppDispatch();
+
   const onFinish = (values: any) => {
-    console.log('Success:', values);
+    dispatch(signIn(values));
   };
 
   const onFinishFailed = (errorInfo: any) => {
