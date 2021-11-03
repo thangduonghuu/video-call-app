@@ -7,7 +7,7 @@ import Sign from 'pages/Sign/Sign';
 function App() {
   return (
     <div className="App">
-      {/* <BrowserRouter>
+      <BrowserRouter>
         <Switch>
           <Route exact path="/">
             <Welcome />
@@ -15,10 +15,14 @@ function App() {
           <Route path="/sign">
             <Sign />
           </Route>
+          <Route path="/home">
+            <HomePage />
+          </Route>
+          <Route path="/:idRoom">
+            <Room />
+          </Route>
         </Switch>
-      </BrowserRouter> */}
-      {/* <HomePage /> */}
-      <Room />
+      </BrowserRouter>
     </div>
   );
 }

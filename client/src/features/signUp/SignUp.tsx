@@ -1,6 +1,8 @@
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Input, Space, Form, Button } from 'antd';
+import { useAppDispatch } from 'app/hooks';
 import { FC, useState } from 'react';
+import { signUp } from './signUpSlice';
 
 interface validate {
   validateStatus:
@@ -15,8 +17,12 @@ interface validate {
 const SignUp: FC<{
   setState: React.Dispatch<React.SetStateAction<boolean>>;
 }> = (props) => {
+
+  const dispatch = useAppDispatch();
+
   const onFinish = (values: any) => {
     console.log('Success:', values);
+    dispatch(signUp(values));
   };
 
   const onFinishFailed = (errorInfo: any) => {
