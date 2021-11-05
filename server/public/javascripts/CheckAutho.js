@@ -3,7 +3,6 @@ function checkAuthentica(req, res, next) {
     console.log("auth thanh cong");
     return next();
   } else {
-    console.log("auth that bai");
     res.send({ isSuccess: false , redirectUrl: "/sign" });
   }
 }
