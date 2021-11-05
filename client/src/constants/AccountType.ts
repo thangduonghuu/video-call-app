@@ -14,3 +14,9 @@ export type SignUpInput = {
   username: string;
   password: string;
 };
+export type AccountState = {
+  owner: string;
+  username: string;
+  avatarUrl: string;
+  loadding: Boolean;
+};

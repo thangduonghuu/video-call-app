@@ -4,13 +4,15 @@ function checkAuthentica(req, res, next) {
     return next();
   } else {
     console.log("auth that bai");
-    res.send({ redirect: "/login" });
+    res.send({ isSuccess: false , redirectUrl: "/sign" });
   }
 }
 function checkNotAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
-    console.log(req.session);
-    return res.send({ redirect: "/home" });
+    return res.send({isSuccess: true });
+  }
+  else{
+    next();
   }
 }
 

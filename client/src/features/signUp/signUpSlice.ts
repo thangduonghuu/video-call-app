@@ -31,11 +31,7 @@ export const signUpSlice = createSlice({
       state.error = 'Login Failed!';
     });
     builder.addCase(signUp.fulfilled, (state, action) => {
-        let history = useHistory();
-        state.loadding = false;
-        state.id = action.payload.id;
-        localStorage.setItem('id', action.payload.id);
-        history.push(action.payload.path);
+        
     });
   },
 });

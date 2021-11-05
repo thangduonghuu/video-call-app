@@ -1,38 +1,48 @@
-import React, { FC, useEffect } from 'react';
-import './HomePage.scss';
-import { Avatar, Layout, PageHeader, Space, Typography, Row, Col } from 'antd';
-import Clock from 'react-live-clock';
-import CreateMeeting from 'features/createMeeting/CreateMeeting';
-import JoinMeeting from 'features/joinMeeting/JoinMeeting';
-import Lottie from 'react-lottie';
-import homePageIcon from 'lotties/home-page.json';
+import React, { FC, useEffect } from "react";
+import "./HomePage.scss";
+import { Avatar, Layout, PageHeader, Space, Typography, Row, Col } from "antd";
+import Clock from "react-live-clock";
+import CreateMeeting from "features/createMeeting/CreateMeeting";
+import JoinMeeting from "features/joinMeeting/JoinMeeting";
+import Lottie from "react-lottie";
+import homePageIcon from "lotties/home-page.json";
+import {GetInfoUser , selectHomePageUser } from './HomePageSlice'
+import { useAppDispatch, useAppSelector } from 'app/hooks';
 const { Header, Content } = Layout;
 const { Title, Text } = Typography;
 
 const HomePage = () => {
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(GetInfoUser({owner: localStorage.getItem('owner')}))
+  },[]);
+  let UserInfo = useAppSelector(selectHomePageUser);
+  // console.log(UserInfo);
+  
   return (
     <div className="home-page-container">
       <Layout className="home-page">
         <Header className="home-page__header">
           <PageHeader
-            onBack={() => (window.location.href = '/welcome')}
+            onBack={() => (window.location.href = "/welcome")}
             title="Meet"
             subTitle="Home page"
             extra={[
               <Space size="large">
                 <Space>
-                  <Title level={5} style={{ margin: '0px' }}>
+                  <Title level={5} style={{ margin: "0px" }}>
                     <Clock
-                      format={'MMMM Mo, YYYY • h:mm:ss A'}
+                      format={"MMMM Mo, YYYY • h:mm:ss A"}
                       ticking={true}
                     />
                   </Title>
                 </Space>
 
                 <Space>
-                  <Avatar src="https://i.pinimg.com/originals/18/60/64/186064435781b1d78013dcb4ba9208a4.jpg" />
-                  <Title level={5} style={{ margin: '0px' }}>
-                    Rimuru
+                  <Avatar src={UserInfo.avatarUrl} />
+                  <Title level={5} style={{ margin: "0px" }}>
+                    {UserInfo.username}
                   </Title>
                 </Space>
               </Space>,
@@ -72,7 +82,7 @@ const Icon = () => {
     autoplay: true,
     animationData: homePageIcon,
     rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
+      preserveAspectRatio: "xMidYMid slice",
     },
   };
   return (

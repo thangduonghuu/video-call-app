@@ -3,14 +3,15 @@ var router = express.Router();
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const functionAutho = require("../public/javascripts/CheckAutho");
-const login = require("../public/db/schema/User_Schema");
+var login = require("../public/db/schema/User_Schema");
 let user;
-router.get("/", functionAutho.checkNotAuthenticated, (req, res) => {
-  res.send("hello");
+router.post("/CheckLogin",functionAutho.checkNotAuthenticated, (req, res) => {
+//  console.log(true);
+  res.send({ isSuccess: false });
 });
 
 router.post("/", passport.authenticate("local"), function (req, res) {
-  res.send({ id: user.ID, redirect: "/home" });
+  res.send({ id: user.ID, isSuccess: true });
 });
 
 passport.use(
