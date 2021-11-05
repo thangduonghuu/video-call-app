@@ -12,7 +12,7 @@ module.exports = async function connection() {
     )
     .catch((err) => console.log(err));
 
-  mongoose.connection.on("connected", () => {
-    console.log("Mongoose connected to db");
-  });
+  // mongoose.connection.on("connected", () => {
+  //   console.log("Mongoose connected to db");
+  // });
 };
