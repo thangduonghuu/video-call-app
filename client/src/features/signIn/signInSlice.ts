@@ -64,7 +64,7 @@ export const signInSlice = createSlice({
       state.error = "Login Failed!";
     });
     builder.addCase(CheckLoginUser.fulfilled, (state, action) => {
-      if (!action.payload.isSuccess) {
+      if (action.payload.isSuccess) {
         window.location.assign(`http://localhost:3000/home`);
       }
     });
