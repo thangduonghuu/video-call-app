@@ -1,6 +1,6 @@
 function checkAuthentica(req, res, next) {
   if (req.isAuthenticated()) {
-    console.log("auth thanh cong");
+    
     return next();
   } else {
     res.send({ isSuccess: false , redirectUrl: "/sign" });
@@ -8,9 +8,11 @@ function checkAuthentica(req, res, next) {
 }
 function checkNotAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
+    console.log('login roi');
     return res.send({isSuccess: true });
   }
   else{
+    console.log('chua login ');
     next();
   }
 }

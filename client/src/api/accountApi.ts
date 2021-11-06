@@ -1,10 +1,9 @@
 import axios from "axios";
-import { SignInInput, SignUpInput , AccountState} from "constants/AccountType";
+import { SignInInput, SignUpInput, AccountState } from "constants/AccountType";
 
 const API = "http://localhost:4000";
 
 export const accountApi = {
-  
   signIn: (params: SignInInput) => {
     return axios
       .post(
@@ -24,7 +23,7 @@ export const accountApi = {
   },
   CheckLogin: () => {
     return axios
-      .post(
+      .get(
         `${API}/login/CheckLogin`,
         { withCredentials: true }
       )

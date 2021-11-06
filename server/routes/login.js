@@ -5,10 +5,18 @@ const LocalStrategy = require("passport-local").Strategy;
 const functionAutho = require("../public/javascripts/CheckAutho");
 var login = require("../public/db/schema/User_Schema");
 let user;
-router.post("/CheckLogin",functionAutho.checkNotAuthenticated, (req, res) => {
-//  console.log(true);
-  res.send({ isSuccess: false });
-});
+router.get(
+  "/CheckLogin",
+  // (req, res, next) => {
+  //   console.log(req.body);
+  //   next();
+  // },
+  functionAutho.checkNotAuthenticated,
+  (req, res) => {
+    //  console.log(true);
+    res.send({ isSuccess: false });
+  }
+);
 
 router.post("/", passport.authenticate("local"), function (req, res) {
   res.send({ id: user.ID, isSuccess: true });
