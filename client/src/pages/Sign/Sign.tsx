@@ -7,7 +7,11 @@ import SignIn from 'features/signIn/SignIn';
 import './Sign.scss'
 const Sign = () => {
   const [isShowSignIn, setIsShowSignIn] = useState(true);
-
+  const isAuthenticated = Boolean(localStorage.getItem('owner'));
+  if(isAuthenticated){
+    window.location.href="http://localhost:3000/home";
+  }
+  
   return (
     <div className="sign-container">
       <div className="sign">
