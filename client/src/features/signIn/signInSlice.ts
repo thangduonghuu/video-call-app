@@ -15,8 +15,6 @@ export const CheckLoginUser = createAsyncThunk(
   "account/CheckLogin",
   async () => {
     const response: any = await accountApi.CheckLogin();
-    console.log(response.data);
-    
     return response.data;
     // console.log(response.data);
   }
@@ -42,18 +40,11 @@ export const signInSlice = createSlice({
       state.error = "Login Failed!";
     });
     builder.addCase(signIn.fulfilled, (state, action) => {
-      // let history = useHistory();
-      // state.loadding = false;
-      // state.id = action.payload.id;
-      // localStorage.setItem('id', action.payload.id);
-      // history.push(action.payload.path);
-      // console.log(action.payload);
       if (action.payload.isSuccess) {
         localStorage.setItem("owner", action.payload.id);
-         state.loadding = false;
-         state.id = action.payload.id;
-         window.location.assign('http://localhost:3000/home')
-        //  history.push('http://localhost:3000/home');
+        state.loadding = false;
+        state.id = action.payload.id;
+        window.location.assign("http://localhost:3000/home");
       }
     });
     builder.addCase(CheckLoginUser.pending, (state) => {

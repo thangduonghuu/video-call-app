@@ -1,6 +1,5 @@
 function checkAuthentica(req, res, next) {
   if (req.isAuthenticated()) {
-    
     return next();
   } else {
     res.send({ isSuccess: false , redirectUrl: "/sign" });
