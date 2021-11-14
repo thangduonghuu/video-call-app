@@ -6,20 +6,19 @@ import CreateMeeting from "features/createMeeting/CreateMeeting";
 import JoinMeeting from "features/joinMeeting/JoinMeeting";
 import Lottie from "react-lottie";
 import homePageIcon from "lotties/home-page.json";
-import {GetInfoUser , selectHomePageUser } from './HomePageSlice'
-import { useAppDispatch, useAppSelector } from 'app/hooks';
+
+import { GetInfoUser, selectHomePageUser, createAroom } from "./HomePageSlice";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 const { Header, Content } = Layout;
 const { Title, Text } = Typography;
 
-const HomePage = () => {
-
+const HomePage = ({ SocketRoom }: any) => {
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(GetInfoUser({owner: localStorage.getItem('owner')}))
-  },[]);
+    dispatch(GetInfoUser({ owner: localStorage.getItem("owner") }));
+  }, []);
   let UserInfo = useAppSelector(selectHomePageUser);
-  // console.log(UserInfo);
-  
+
   return (
     <div className="home-page-container">
       <Layout className="home-page">
@@ -61,7 +60,7 @@ const HomePage = () => {
                   </Text>
                 </div>
                 <Space className="home-page__content__col__create">
-                  <CreateMeeting />
+                  <CreateMeeting socketId={SocketRoom} />
                   <JoinMeeting />
                 </Space>
               </Space>

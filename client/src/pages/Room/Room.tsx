@@ -1,38 +1,68 @@
-import { Button, Col, Layout, Row, Space, Tooltip, Typography } from 'antd';
-import Camera from 'features/camera/Camera';
-import Micro from 'features/micro/Micro';
-import Stop from 'features/stop/Stop';
-import React, { useState } from 'react';
-import './Room.scss';
+import { Button, Col, Layout, Row, Space, Tooltip, Typography } from "antd";
+import Camera from "features/camera/Camera";
+import Micro from "features/micro/Micro";
+import Stop from "features/stop/Stop";
+import React, { useEffect, useState } from "react";
+import Peer from "peerjs";
+import "./Room.scss";
 import {
   TeamOutlined,
   MessageOutlined,
   CloseOutlined,
-} from '@ant-design/icons';
-import Chat from 'features/chat/Chat';
-import Grid from 'features/grid/Grid';
-
-
+} from "@ant-design/icons";
+import Chat from "features/chat/Chat";
+import Grid from "features/grid/Grid";
+import { useAppDispatch } from "app/hooks";
+import { joinRoom, someOneJoinRoom } from "./RoomSlice";
+import { useLocation } from "react-router-dom";
+import { io, Socket } from "socket.io-client";
+import { DefaultEventsMap } from "@socket.io/component-emitter";
 const { Title, Text } = Typography;
+let peer = new Peer({
+  secure: true,
+  host: "mypeerserverjs.herokuapp.com",
+  port: 443,
+});
+let socket = io("http://localhost:4000");
+
 const { Content, Header, Footer, Sider } = Layout;
-const Room = () => {
+const Room = ({ SocketRoom }: any) => {
+  const dispatch = useAppDispatch();
   const [isHiddenSiderChatbox, setIsHiddenSiderChatbox] = useState(true);
   const [isHiddenSiderMember, setIsHiddenSiderMember] = useState(true);
+  const currentURL = useLocation();
+  // console.log(currentURL.pathname.slice(13));
+
+  useEffect(() => {
+    peer.on("open", (id) => {
+      localStorage.setItem("peerid", id);
+      dispatch(
+        joinRoom({
+          socketInfo: socket,
+          RoomId: currentURL.pathname.slice(13),
+          peerId: id,
+        })
+      );
+    });
+  }, []);
+  // console.log(peer);
+  socket.on("SomeOneJoin", async (userOnlineInRoom: any) => {
+    dispatch(someOneJoinRoom(userOnlineInRoom));
+  });
 
   return (
     <div className="room-ctn">
       <Layout className="room">
         <Layout className="room__content">
           <Content className="room__content__grid">
-            <Grid />
-            
-            </Content>
+            <Grid connectionPeerjs={peer} />
+          </Content>
           <Sider
             className="room__content__sider "
             width={350}
             hidden={isHiddenSiderChatbox}
           >
-           <Chat />
+            <Chat />
           </Sider>
           <Sider
             className="room__content__sider"

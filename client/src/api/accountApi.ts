@@ -1,7 +1,7 @@
 import axios from "axios";
 import { SignInInput, SignUpInput, AccountState } from "constants/AccountType";
 
-const API = "http://localhost:4000";
+const API = "https://servervideocall.herokuapp.com";
 
 export const accountApi = {
   signIn: (params: SignInInput) => {
