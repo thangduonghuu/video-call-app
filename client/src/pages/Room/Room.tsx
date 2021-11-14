@@ -18,9 +18,10 @@ import { useLocation } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 import { DefaultEventsMap } from "@socket.io/component-emitter";
 const { Title, Text } = Typography;
-let peer = new Peer(localStorage.getItem("owner") || "123thang", {
-  host: "/",
-  port: 3002,
+let peer = new Peer({
+  secure: true,
+  host: "mypeerserverjs.herokuapp.com",
+  port: 443,
 });
 let socket = io("http://localhost:4000");
 
@@ -33,11 +34,17 @@ const Room = ({ SocketRoom }: any) => {
   // console.log(currentURL.pathname.slice(13));
 
   useEffect(() => {
-    dispatch(
-      joinRoom({ socketInfo: socket, RoomId: currentURL.pathname.slice(13) })
-    );    
+    peer.on("open", (id) => {
+      localStorage.setItem("peerid", id);
+      dispatch(
+        joinRoom({
+          socketInfo: socket,
+          RoomId: currentURL.pathname.slice(13),
+          peerId: id,
+        })
+      );
+    });
   }, []);
-
   // console.log(peer);
   socket.on("SomeOneJoin", async (userOnlineInRoom: any) => {
     dispatch(someOneJoinRoom(userOnlineInRoom));

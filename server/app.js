@@ -51,7 +51,6 @@ io.on("connection", (socket) => {
     // console.log(data);
     socket.idUser = data.UserRoom;
     socket.room_id = data.RoomId;
-
     users.push({ Room: data.RoomId, Data: "Host", idUser: data.UserRoom });
     socket.join(data.RoomId);
   });
@@ -60,7 +59,8 @@ io.on("connection", (socket) => {
     socket.join(data.room_id);
     socket.idUser = data.ownerId;
     socket.room_id = data.room_id;
-    // if (data.ownerId != users[0].idUser && data.room_id != users[0].Room) {
+
+    console.log(users);
     let index = users.findIndex((user) => user.idUser === socket.idUser);
     if (index == -1) {
       users.push({
@@ -86,8 +86,9 @@ io.on("connection", (socket) => {
   // });
 
   socket.on("disconnect", () => {
-    console.log("disconnect call");
+    // console.log("disconnect call");
     let index = users.findIndex((user) => user.idUser === socket.idUser);
+
     users[
       ({
         ...users.slice(0, index),

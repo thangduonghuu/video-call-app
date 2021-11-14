@@ -53,10 +53,11 @@ export const HomePageSlice = createSlice({
       if (action.payload.isSuccess) {
         state.username = action.payload.username;
         state.avatarUrl = action.payload.avatar;
-      } else {
-        window.location.replace(`http://localhost:3000/sign`);
-        localStorage.clear();
-      }
+      } 
+      // else {
+      //   window.location.replace(`http://localhost:3000/sign`);
+      //   localStorage.clear();
+      // }
     });
 
     builder.addCase(CreateAMeeting.pending, (state) => {

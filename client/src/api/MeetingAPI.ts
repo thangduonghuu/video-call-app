@@ -1,10 +1,10 @@
 import axios from "axios";
-const API = "http://localhost:4000";
+const API = "https://servervideocall.herokuapp.com";
 export const MeetingRoom = {
   CreateMeeting: (params: any) => {
     return axios
       .post(
-        `http://localhost:4000/MeetingRoom/CreateMeetingRoom`,
+        `${API}/MeetingRoom/CreateMeetingRoom`,
         {
           owner: window.localStorage.getItem("owner"),
           RoomName: params.roomId,

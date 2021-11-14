@@ -13,14 +13,20 @@ export const RoomMeetingSlice = createSlice({
   initialState,
   reducers: {
     joinRoom: (state, action) => {
+      // console.log(action.payload);
+      
       action.payload.socketInfo.emit("join_room", {
         room_id: action.payload.RoomId,
         ownerId: localStorage.getItem("owner"),
+        peerId: action.payload.peerId
       });
     },
     someOneJoinRoom: (state, action) => {
       state.MemberInRoom = action.payload;
     },
+    // openScreen: (state) => {
+    //   return navigator.mediaDevices.getUserMedia({ video: true });
+    // }
   },
 });
 export default RoomMeetingSlice.reducer;
