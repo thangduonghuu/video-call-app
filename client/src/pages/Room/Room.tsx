@@ -13,29 +13,33 @@ import {
 import Chat from "features/chat/Chat";
 import Grid from "features/grid/Grid";
 import { useAppDispatch } from "app/hooks";
-import { joinRoom, someOneJoinRoom } from "./RoomSlice";
+import { joinRoom, someOneJoinRoom, someOneDisconnect } from "./RoomSlice";
 import { useLocation } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 import { DefaultEventsMap } from "@socket.io/component-emitter";
 const { Title, Text } = Typography;
+// let peer = new Peer({
+//   secure: true,
+//   host: "mypeerserverjs.herokuapp.com",
+//   port: 443,
+// });
 let peer = new Peer({
-  secure: true,
-  host: "mypeerserverjs.herokuapp.com",
-  port: 443,
+  host: "/",
+  port: 3002,
 });
+// let socket = io("servervideocall.herokuapp.com");
 let socket = io("http://localhost:4000");
-
 const { Content, Header, Footer, Sider } = Layout;
 const Room = ({ SocketRoom }: any) => {
   const dispatch = useAppDispatch();
   const [isHiddenSiderChatbox, setIsHiddenSiderChatbox] = useState(true);
   const [isHiddenSiderMember, setIsHiddenSiderMember] = useState(true);
   const currentURL = useLocation();
-  // console.log(currentURL.pathname.slice(13));
 
   useEffect(() => {
     peer.on("open", (id) => {
       localStorage.setItem("peerid", id);
+
       dispatch(
         joinRoom({
           socketInfo: socket,
@@ -49,7 +53,9 @@ const Room = ({ SocketRoom }: any) => {
   socket.on("SomeOneJoin", async (userOnlineInRoom: any) => {
     dispatch(someOneJoinRoom(userOnlineInRoom));
   });
-
+  socket.on("someOneDisconnect", async (userDisconect: any) => {
+    dispatch(someOneDisconnect(userDisconect));
+  });
   return (
     <div className="room-ctn">
       <Layout className="room">

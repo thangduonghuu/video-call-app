@@ -16,7 +16,7 @@ export const CreateAMeeting = createAsyncThunk(
   "MeetingRoom/CreateAMeeting",
   async (user: any) => {
     console.log(MeetingRoom.CreateMeeting);
-    
+
     const response: any = await MeetingRoom.CreateMeeting(user);
     console.log(response);
 
@@ -53,11 +53,12 @@ export const HomePageSlice = createSlice({
       if (action.payload.isSuccess) {
         state.username = action.payload.username;
         state.avatarUrl = action.payload.avatar;
-      } 
-      // else {
-      //   window.location.replace(`http://localhost:3000/sign`);
-      //   localStorage.clear();
-      // }
+      }
+      /// commet khi chay local
+      else {
+        window.location.replace(`http://localhost:3000/sign`);
+        localStorage.clear();
+      }
     });
 
     builder.addCase(CreateAMeeting.pending, (state) => {
