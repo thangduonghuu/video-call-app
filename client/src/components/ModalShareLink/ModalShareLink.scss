@@ -1,0 +1,31 @@
+.modal-box {
+  & .ant-modal-content {
+    border-radius: 8px;
+  }
+}
+
+.link-box {
+  width: 100%;
+  height: 45px;
+  background-color: #f1f3f4;
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.paragraph-link-box {
+  width: 320px;
+  margin: 0 !important;
+  display: flex;
+  justify-content: space-between;
+}
+
+.icon-sercure {
+  font-size: 22px;
+}
+
+.secondary-text {
+  font-size: 12px;
+}
