@@ -7,15 +7,29 @@ import VideoCall from "features/videoCall/videoCall";
 
 const Grid = ({ connectionPeerjs }: any) => {
   const dataGrid = useSelector(selectuserInRoom).MemberInRoom;
+  const MyVideo = React.useRef<any>();
+  function openStrem() {
+    return navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+  }
   useEffect(() => {
+    openStrem().then(async (stream) => {
+      if (MyVideo.current != null) {
+        MyVideo.current.srcObject = stream;
+      }
+    });
+
     connectionPeerjs.on("call", (call: any) => {
       navigator.mediaDevices
         .getUserMedia({ video: true })
         .then((stream: any) => {
-          call.answer(stream);
+          // loc am thanh
+          var videoOnly = new MediaStream(stream.getVideoTracks());
+          
+          call.answer(videoOnly);
           call.on("stream", (remoteStream: any) => {
-            console.log(remoteStream);
             let videoTest = document.createElement("video");
+            videoTest.className = call.options.metadata;
+            // console.log();
             let videoGird = document.getElementById("video-grid");
             videoTest.srcObject = remoteStream;
             videoTest.addEventListener("loadedmetadata", () => {
@@ -34,11 +48,14 @@ const Grid = ({ connectionPeerjs }: any) => {
       gutter={[16, 16]}
     >
       <div id="video-grid">
-        {dataGrid.length > 1 &&
+        {/* {console.log(dataGrid)} */}
+        <video ref={MyVideo} autoPlay></video>
+        {dataGrid.length > 0 &&
           dataGrid.map((video) => {
             if (video.idUser != localStorage.getItem("owner")) {
               return (
                 <VideoCall
+                  nameId={video.idUser}
                   connectionPeerjs={connectionPeerjs}
                   CallTo={video.peerId}
                 />

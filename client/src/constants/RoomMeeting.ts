@@ -5,7 +5,7 @@ export type RoomMeeting = {
   loadding: true;
 };
 export type Members = {
-  RoomJoin:   string;
+  RoomJoin: string;
   idUser: string;
-  peerId: string
+  peerId: string;
 };

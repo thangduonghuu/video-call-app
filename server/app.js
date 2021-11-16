@@ -59,8 +59,6 @@ io.on("connection", (socket) => {
     socket.join(data.room_id);
     socket.idUser = data.ownerId;
     socket.room_id = data.room_id;
-
-    console.log(users);
     let index = users.findIndex((user) => user.idUser === socket.idUser);
     if (index == -1) {
       users.push({
