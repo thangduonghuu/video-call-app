@@ -50,6 +50,8 @@ export const HomePageSlice = createSlice({
       state.loadding = false;
     });
     builder.addCase(GetInfoUser.fulfilled, (state, action) => {
+      console.log(action.payload);
+
       if (action.payload.isSuccess) {
         state.username = action.payload.username;
         state.avatarUrl = action.payload.avatar;

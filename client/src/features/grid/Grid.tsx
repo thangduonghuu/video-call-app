@@ -20,12 +20,11 @@ const Grid = ({ connectionPeerjs }: any) => {
 
     connectionPeerjs.on("call", (call: any) => {
       navigator.mediaDevices
-        .getUserMedia({ video: true })
+        .getUserMedia({ video: true, audio: true })
         .then((stream: any) => {
           // loc am thanh
-          var videoOnly = new MediaStream(stream.getVideoTracks());
-          
-          call.answer(videoOnly);
+
+          call.answer(stream);
           call.on("stream", (remoteStream: any) => {
             let videoTest = document.createElement("video");
             videoTest.className = call.options.metadata;
@@ -49,7 +48,7 @@ const Grid = ({ connectionPeerjs }: any) => {
     >
       <div id="video-grid">
         {/* {console.log(dataGrid)} */}
-        <video ref={MyVideo} autoPlay></video>
+        <video ref={MyVideo} autoPlay muted></video>
         {dataGrid.length > 0 &&
           dataGrid.map((video) => {
             if (video.idUser != localStorage.getItem("owner")) {
