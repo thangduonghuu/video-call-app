@@ -3,11 +3,13 @@ const VideoCall = ({ connectionPeerjs, CallTo, nameId }: any) => {
   const MyVideo = React.useRef<any>();
   useEffect(() => {
     navigator.mediaDevices
-      .getUserMedia({ video: true , audio: true })
+      .getUserMedia({ video: true, audio: true })
       .then(async (stream: any) => {
-        var videoOnly = new MediaStream(stream.getVideoTracks());
-        let call = await connectionPeerjs.call(CallTo, videoOnly,  { metadata: localStorage.getItem("owner")});
-   
+        // var videoOnly = new MediaStream(stream.getVideoTracks());
+        let call = await connectionPeerjs.call(CallTo, stream, {
+          metadata: localStorage.getItem("owner"),
+        });
+
         call.on("stream", (remoteStream: any) => {
           if (MyVideo.current != null) {
             MyVideo.current.srcObject = remoteStream;

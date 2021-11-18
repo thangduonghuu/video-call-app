@@ -37,10 +37,10 @@ const Room = ({ SocketRoom }: any) => {
   const currentURL = useLocation();
 
   useEffect(() => {
-    peer.on("open", (id) => {
-      localStorage.setItem("peerid", id);
+    peer.on("open", async (id) => {
+      await localStorage.setItem("peerid", id);
 
-      dispatch(
+      await dispatch(
         joinRoom({
           socketInfo: socket,
           RoomId: currentURL.pathname.slice(13),
