@@ -2,7 +2,7 @@ import axios from "axios";
 import { SignInInput, SignUpInput, AccountState } from "constants/AccountType";
 
 // const API = "https://servervideocall.herokuapp.com";
-const API = "http://localhost:4000"
+const API = "http://localhost:4000";
 
 export const accountApi = {
   signIn: (params: SignInInput) => {
@@ -24,10 +24,7 @@ export const accountApi = {
   },
   CheckLogin: () => {
     return axios
-      .get(
-        `${API}/login/CheckLogin`,
-        { withCredentials: true }
-      )
+      .get(`${API}/login/CheckLogin`, { withCredentials: true })
       .then((response) => {
         return response;
       })

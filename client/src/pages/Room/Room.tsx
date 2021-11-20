@@ -12,11 +12,19 @@ import {
 } from "@ant-design/icons";
 import Chat from "features/chat/Chat";
 import Grid from "features/grid/Grid";
-import { useAppDispatch } from "app/hooks";
-import { joinRoom, someOneJoinRoom, someOneDisconnect } from "./RoomSlice";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import {
+  joinRoom,
+  someOneJoinRoom,
+  someOneDisconnect,
+  selectuserInRoom,
+  GetInfoUser,
+} from "./RoomSlice";
+
 import { useLocation } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 import { DefaultEventsMap } from "@socket.io/component-emitter";
+// import {   } from "pages/Room/RoomSlice";
 const { Title, Text } = Typography;
 // let peer = new Peer({
 //   secure: true,
@@ -32,16 +40,18 @@ let socket = io("http://localhost:4000");
 const { Content, Header, Footer, Sider } = Layout;
 const Room = ({ SocketRoom }: any) => {
   const dispatch = useAppDispatch();
+  const memeberInroom = useAppSelector(selectuserInRoom);
   const [isHiddenSiderChatbox, setIsHiddenSiderChatbox] = useState(true);
   const [isHiddenSiderMember, setIsHiddenSiderMember] = useState(true);
   const currentURL = useLocation();
 
   useEffect(() => {
+    dispatch(GetInfoUser({ owner: localStorage.getItem("owner") }));
     peer.on("open", async (id) => {
       await localStorage.setItem("peerid", id);
-
       await dispatch(
         joinRoom({
+          username: localStorage.getItem("username"),
           socketInfo: socket,
           RoomId: currentURL.pathname.slice(13),
           peerId: id,
@@ -56,12 +66,13 @@ const Room = ({ SocketRoom }: any) => {
   socket.on("someOneDisconnect", async (userDisconect: any) => {
     dispatch(someOneDisconnect(userDisconect));
   });
+
   return (
     <div className="room-ctn">
       <Layout className="room">
         <Layout className="room__content">
           <Content className="room__content__grid">
-            <Grid connectionPeerjs={peer} />
+            <Grid connectionPeerjs={peer} userAvater={memeberInroom} />
           </Content>
           <Sider
             className="room__content__sider "
@@ -76,6 +87,11 @@ const Room = ({ SocketRoom }: any) => {
             hidden={isHiddenSiderMember}
           >
             member
+            {/* {console.log(memeberInroom.MemberInRoom)} */}
+            {memeberInroom.MemberInRoom &&
+              memeberInroom.MemberInRoom.map((member: any) => {
+                return <div> {member.username} </div>;
+              })}
           </Sider>
         </Layout>
         <Footer className="room__footer">

@@ -1,8 +1,11 @@
 export type RoomMeeting = {
   socketId: any;
   username: string;
+  avatarUrl: string;
   MemberInRoom: Array<Members>;
-  loadding: true;
+  video: boolean;
+  audio: boolean;
+  loadding: boolean;
 };
 export type Members = {
   RoomJoin: string;
