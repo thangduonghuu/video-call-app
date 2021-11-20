@@ -39,15 +39,19 @@ const Grid = ({ connectionPeerjs, userAvater }: any) => {
     connectionPeerjs.on("call", (call: any) => {
       call.answer(MyVideo.current.srcObject);
       call.on("stream", (remoteStream: any) => {
-        let videoTest = document.createElement("video");
-        videoTest.className = call.options.metadata;
-        let videoGird = document.getElementById("video-grid");
-        videoTest.srcObject = remoteStream;
-        videoTest.addEventListener("loadedmetadata", () => {
-          videoTest.play();
-        });
-        if (videoGird) {
-          videoGird.append(videoTest);
+        // console.log(document.getElementsByClassName(call.options.metadata)[0]);
+        if (document.getElementsByClassName(call.options.metadata)[0] == undefined) {
+          let videoTest = document.createElement("video");
+
+          videoTest.className = call.options.metadata;
+          let videoGird = document.getElementById("video-grid");
+          videoTest.srcObject = remoteStream;
+          videoTest.addEventListener("loadedmetadata", () => {
+            videoTest.play();
+          });
+          if (videoGird) {
+            videoGird.append(videoTest);
+          }
         }
       });
     });
@@ -80,14 +84,16 @@ const Grid = ({ connectionPeerjs, userAvater }: any) => {
         {dataGrid.length > 0 &&
           dataGrid.map((video) => {
             if (video.idUser != localStorage.getItem("owner")) {
-              return (
-                <VideoCall
-                  MyVideoCall={MyVideo.current.srcObject}
-                  nameId={video.idUser}
-                  connectionPeerjs={connectionPeerjs}
-                  CallTo={video.peerId}
-                />
-              );
+              if (MyVideo.current.srcObject) {
+                return (
+                  <VideoCall
+                    MyVideoCall={MyVideo.current.srcObject}
+                    nameId={video.idUser}
+                    connectionPeerjs={connectionPeerjs}
+                    CallTo={video.peerId}
+                  />
+                );
+              }
             }
           })}
       </div>
