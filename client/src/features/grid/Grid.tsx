@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from "app/hooks";
 import { useSelector } from "react-redux";
 import VideoCall from "features/videoCall/videoCall";
 
-const Grid = ({ connectionPeerjs, userAvater }: any) => {
+const Grid = ({ SocketRoom, connectionPeerjs, userAvater }: any) => {
   const dataGrid = useSelector(selectuserInRoom).MemberInRoom;
   const MyVideo = React.useRef<any>();
   const dispatch = useAppDispatch();
@@ -25,7 +25,7 @@ const Grid = ({ connectionPeerjs, userAvater }: any) => {
     });
   }
   useEffect(() => {
-    openStrem(true, true)
+    openStrem(video, audio)
       .then(async (stream) => {
         if (MyVideo.current != null) {
           MyVideo.current.srcObject = stream;
@@ -40,15 +40,17 @@ const Grid = ({ connectionPeerjs, userAvater }: any) => {
       call.answer(MyVideo.current.srcObject);
       call.on("stream", (remoteStream: any) => {
         // console.log(document.getElementsByClassName(call.options.metadata)[0]);
-        if (document.getElementsByClassName(call.options.metadata)[0] == undefined) {
+        if (
+          document.getElementsByClassName(call.options.metadata)[0] == undefined
+        ) {
           let videoTest = document.createElement("video");
-
           videoTest.className = call.options.metadata;
           let videoGird = document.getElementById("video-grid");
           videoTest.srcObject = remoteStream;
-          videoTest.addEventListener("loadedmetadata", () => {
-            videoTest.play();
-          });
+          videoTest.autoplay = true;
+          // videoTest.addEventListener("loadedmetadata", () => {
+          //   videoTest.play();
+          // });
           if (videoGird) {
             videoGird.append(videoTest);
           }
@@ -56,16 +58,20 @@ const Grid = ({ connectionPeerjs, userAvater }: any) => {
       });
     });
   }, []);
+
   useEffect(() => {
     try {
       dispatch(stopAudioOnly(MyVideo.current.srcObject));
+     
     } catch (e) {
       console.log("chua set up");
     }
   }, [audio]);
+
   useEffect(() => {
     try {
       dispatch(stopVideoOnly(MyVideo.current.srcObject));
+      SocketRoom.emmit('close-video', localStorage.getItem('owner'))
     } catch (e) {}
   }, [video]);
   return (

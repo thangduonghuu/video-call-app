@@ -92,10 +92,10 @@ export const RoomMeetingSlice = createSlice({
         localStorage.setItem("username", action.payload.username);
       }
       /// commet khi chay online
-      else {
-        window.location.replace(`http://localhost:3000/sign`);
-        localStorage.clear();
-      }
+      // else {
+      //   window.location.replace(`http://localhost:3000/sign`);
+      //   localStorage.clear();
+      // }
     });
   },
 });

@@ -38,7 +38,7 @@ let peer = new Peer({
 // let socket = io("servervideocall.herokuapp.com");
 let socket = io("http://localhost:4000");
 const { Content, Header, Footer, Sider } = Layout;
-const Room = ({ SocketRoom }: any) => {
+const Room = () => {
   const dispatch = useAppDispatch();
   const memeberInroom = useAppSelector(selectuserInRoom);
   const [isHiddenSiderChatbox, setIsHiddenSiderChatbox] = useState(true);
@@ -72,7 +72,7 @@ const Room = ({ SocketRoom }: any) => {
       <Layout className="room">
         <Layout className="room__content">
           <Content className="room__content__grid">
-            <Grid connectionPeerjs={peer} userAvater={memeberInroom} />
+            <Grid SocketRoom={socket} connectionPeerjs={peer} userAvater={memeberInroom} />
           </Content>
           <Sider
             className="room__content__sider "
