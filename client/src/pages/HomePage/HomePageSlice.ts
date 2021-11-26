@@ -50,18 +50,16 @@ export const HomePageSlice = createSlice({
       state.loadding = false;
     });
     builder.addCase(GetInfoUser.fulfilled, (state, action) => {
-
-
       if (action.payload.isSuccess) {
         state.username = action.payload.username;
         state.avatarUrl = action.payload.avatar;
-        localStorage.setItem("username", action.payload.username)
+        localStorage.setItem("username", action.payload.username);
       }
       /// commet khi chay online
-      else {
-        window.location.replace(`http://localhost:3000/sign`);
-        localStorage.clear();
-      }
+      // else {
+      //   window.location.replace(`http://localhost:3000/sign`);
+      //   localStorage.clear();
+      // }
     });
 
     builder.addCase(CreateAMeeting.pending, (state) => {
