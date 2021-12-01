@@ -1,4 +1,13 @@
-import { Button, Col, Layout, Row, Space, Tooltip, Typography } from "antd";
+import {
+  Button,
+  Col,
+  Layout,
+  Row,
+  Space,
+  Tooltip,
+  Typography,
+  message,
+} from "antd";
 import Camera from "features/camera/Camera";
 import Micro from "features/micro/Micro";
 import Stop from "features/stop/Stop";
@@ -26,17 +35,17 @@ import { io, Socket } from "socket.io-client";
 import { DefaultEventsMap } from "@socket.io/component-emitter";
 // import {   } from "pages/Room/RoomSlice";
 const { Title, Text } = Typography;
-// let peer = new Peer({
-//   secure: true,
-//   host: "mypeerserverjs.herokuapp.com",
-//   port: 443,
-// });
 let peer = new Peer({
-  host: "/",
-  port: 3002,
+  secure: true,
+  host: "mypeerserverjs.herokuapp.com",
+  port: 443,
 });
-// let socket = io("servervideocall.herokuapp.com");
-let socket = io("http://localhost:4000");
+// let peer = new Peer({
+//   host: "/",
+//   port: 3002,
+// });
+let socket = io("servervideocall.herokuapp.com");
+// let socket = io("http://localhost:4000");
 const { Content, Header, Footer, Sider } = Layout;
 const Room = () => {
   const dispatch = useAppDispatch();
@@ -49,16 +58,14 @@ const Room = () => {
     dispatch(GetInfoUser({ owner: localStorage.getItem("owner") }));
     peer.on("open", async (id) => {
       await localStorage.setItem("peerid", id);
-      await dispatch(
-        joinRoom({
-          username: localStorage.getItem("username"),
-          socketInfo: socket,
-          RoomId: currentURL.pathname.slice(13),
-          peerId: id,
-        })
-      );
+      socket.emit("join_room", {
+        username: localStorage.getItem("username"),
+        room_id: currentURL.pathname.slice(13),
+        ownerId: localStorage.getItem("owner"),
+        peerId: id,
+        avatar: localStorage.getItem("avatar"),
+      });
     });
-
     socket.on("SomeOneJoin", async (userOnlineInRoom: any) => {
       dispatch(someOneJoinRoom(userOnlineInRoom));
     });
@@ -69,6 +76,9 @@ const Room = () => {
           userCurrent: userOut.usersCurrentInroom,
         })
       );
+    });
+    socket.on("newUserJoin", (data: any) => {
+      message.info(data.message);
     });
   }, []);
   // console.log(peer);
@@ -95,9 +105,9 @@ const Room = () => {
             className="room__content__sider"
             width={350}
             hidden={isHiddenSiderMember}
+
           >
             member
-            {/* {console.log(memeberInroom.MemberInRoom)} */}
             {memeberInroom.MemberInRoom &&
               memeberInroom.MemberInRoom.map((member: any) => {
                 return <div> {member.username} </div>;
@@ -120,7 +130,7 @@ const Room = () => {
                 </Tooltip>
                 <Micro />
                 <Stop />
-                <Camera />
+                <Camera socket={socket} />
                 <Tooltip title="Show chatbox">
                   <Button
                     type="text"
