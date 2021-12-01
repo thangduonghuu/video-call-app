@@ -105,32 +105,29 @@ const Room = () => {
             width={350}
             hidden={isHiddenSiderMember}
           >
-            <Space size="large" direction="vertical">
+            <Space size="large" direction="vertical" className="room__content__sider__space-list">
               <Title level={3}>Member</Title>
               <List
                 itemLayout="horizontal"
                 dataSource={memeberInroom.MemberInRoom}
                 renderItem={(item: any) => (
-                  <List.Item style={{ paddingLeft: '1rem' }}>
+                  <List.Item>
                     <List.Item.Meta
-                      avatar={<Avatar src={item.avatar} icon={<UserOutlined />} />}
+                      avatar={
+                        <Avatar src={item.avatar} icon={<UserOutlined />} />
+                      }
                       title={
-                        <div
-                          style={{
-                            width: '280px',
-                            height: '40px',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                          }}
-                        >
+                        <>
                           <b style={{ margin: '0px' }}>{item.username}</b>
                           <Tooltip title="Kick this user">
-                            <UserDeleteOutlined
-                              style={{ width: '30px', height: ' 30px' }}
+                            <Button
+                              danger
+                              type="link"
+                              shape={'circle'}
+                              icon={<UserDeleteOutlined />}
                             />
                           </Tooltip>
-                        </div>
+                        </>
                       }
                     />
                   </List.Item>
