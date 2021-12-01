@@ -20,6 +20,16 @@
       background-color: white !important;
       border-radius: 8px !important;
       padding: 1rem;
+
+      &__space-list {
+        width: 100%;
+
+        & .ant-list-item-meta-title {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+      }
     }
   }
   &__footer {
