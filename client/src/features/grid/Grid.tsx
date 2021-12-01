@@ -79,7 +79,7 @@ const Grid = ({ SocketRoom, connectionPeerjs, userAvater }: any) => {
     >
       <div id="video-grid">
         {device ? (
-          <video ref={MyVideo} autoPlay></video>
+          <video ref={MyVideo} autoPlay muted></video>
         ) : (
           <div>
             <img src={userAvater.avatarUrl} width="400px"></img>

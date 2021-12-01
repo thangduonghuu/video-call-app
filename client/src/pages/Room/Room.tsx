@@ -41,17 +41,17 @@ import { DefaultEventsMap } from '@socket.io/component-emitter';
 import ModalShareLink from 'components/ModalShareLink/ModalShareLink';
 // import {   } from "pages/Room/RoomSlice";
 const { Title, Text } = Typography;
-let peer = new Peer({
-  secure: true,
-  host: 'mypeerserverjs.herokuapp.com',
-  port: 443,
-});
 // let peer = new Peer({
-//   host: '/',
-//   port: 3002,
+//   secure: true,
+//   host: 'mypeerserverjs.herokuapp.com',
+//   port: 443,
 // });
-let socket = io('servervideocall.herokuapp.com');
-// let socket = io('http://localhost:4000');
+let peer = new Peer({
+  host: '/',
+  port: 3002,
+});
+// let socket = io('servervideocall.herokuapp.com');
+let socket = io('http://localhost:4000');
 const { Content, Header, Footer, Sider } = Layout;
 const Room = () => {
   const dispatch = useAppDispatch();
