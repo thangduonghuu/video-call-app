@@ -59,7 +59,11 @@ export const RoomMeetingSlice = createSlice({
       state.audio = !state.audio;
     },
     stopVideoButton: (state, action) => {
-      action.payload.socket.emit("close_camera", { ezzio: "thang" });
+      action.payload.socket.emit("close_camera", {
+        username: localStorage.getItem("username"),
+        avatar: localStorage.getItem("avatar"),
+        currentRoom: localStorage.getItem("currentRoom"),
+      });
       state.video = !state.video;
     },
     joinRoom: (state, action) => {
