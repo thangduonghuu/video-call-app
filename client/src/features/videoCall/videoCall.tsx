@@ -7,19 +7,24 @@ const VideoCall = ({ connectionPeerjs, CallTo, nameId, MyVideoCall }: any) => {
 
   useEffect(() => {
     try {
+      let videoGird = document.getElementById("video-grid");
+      if (videoGird) {
+        videoGird.classList.remove(nameId);
+      }
       let call = connectionPeerjs.call(CallTo, MyVideoCall, {
         metadata: localStorage.getItem("owner"),
       });
+      // if()
+      // console.log(document.getElementsByClassName(nameId));
+      
       call.on("stream", (remoteStream: any) => {
         if (MyVideo.current != null) {
           MyVideo.current.srcObject = remoteStream;
         }
       });
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   }, []);
-  return <video className={nameId} ref={MyVideo} autoPlay></video>;
+  return <video className={nameId} ref={MyVideo} autoPlay muted></video>;
 };
 
 export default VideoCall;

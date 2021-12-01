@@ -1,12 +1,11 @@
 import { Button, Tooltip } from "antd";
 import React, { useState } from "react";
 import { AudioOutlined, AudioMutedOutlined } from "@ant-design/icons";
-import {stopAudioButton} from "pages/Room/RoomSlice";
+import { stopAudioButton } from "pages/Room/RoomSlice";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-const Micro = () => {
+const Micro = ({ socket }: any) => {
   const dispatch = useAppDispatch();
   const [isDisabled, setIsDisabled] = useState<Boolean>(false);
-
   return (
     <>
       {!isDisabled ? (
@@ -16,7 +15,10 @@ const Micro = () => {
             type="text"
             icon={<AudioOutlined />}
             size="large"
-            onClick={() => {setIsDisabled(true); dispatch(stopAudioButton())}}
+            onClick={() => {
+              setIsDisabled(true);
+              dispatch(stopAudioButton({socketRoom : socket}));
+            }}
           />
         </Tooltip>
       ) : (
@@ -27,7 +29,10 @@ const Micro = () => {
             type="primary"
             icon={<AudioMutedOutlined />}
             size="large"
-            onClick={() => {setIsDisabled(false); dispatch(stopAudioButton())}}
+            onClick={() => {
+              setIsDisabled(false);
+              dispatch(stopAudioButton({socketRoom : socket}));
+            }}
           />
         </Tooltip>
       )}

@@ -39,18 +39,17 @@ const Grid = ({ SocketRoom, connectionPeerjs, userAvater }: any) => {
     connectionPeerjs.on("call", (call: any) => {
       call.answer(MyVideo.current.srcObject);
       call.on("stream", (remoteStream: any) => {
-        // console.log(document.getElementsByClassName(call.options.metadata)[0]);
+        let videoGird = document.getElementById("video-grid");
+        if (videoGird) {
+          videoGird.classList.remove(call.options.metadata);
+        }
         if (
           document.getElementsByClassName(call.options.metadata)[0] == undefined
         ) {
           let videoTest = document.createElement("video");
           videoTest.className = call.options.metadata;
-          let videoGird = document.getElementById("video-grid");
           videoTest.srcObject = remoteStream;
           videoTest.autoplay = true;
-          // videoTest.addEventListener("loadedmetadata", () => {
-          //   videoTest.play();
-          // });
           if (videoGird) {
             videoGird.append(videoTest);
           }
@@ -62,7 +61,6 @@ const Grid = ({ SocketRoom, connectionPeerjs, userAvater }: any) => {
   useEffect(() => {
     try {
       dispatch(stopAudioOnly(MyVideo.current.srcObject));
-     
     } catch (e) {
       console.log("chua set up");
     }
@@ -71,7 +69,7 @@ const Grid = ({ SocketRoom, connectionPeerjs, userAvater }: any) => {
   useEffect(() => {
     try {
       dispatch(stopVideoOnly(MyVideo.current.srcObject));
-      SocketRoom.emmit('close-video', localStorage.getItem('owner'))
+      SocketRoom.emmit("close-video", localStorage.getItem("owner"));
     } catch (e) {}
   }, [video]);
   return (
