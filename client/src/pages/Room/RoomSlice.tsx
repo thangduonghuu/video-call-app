@@ -53,10 +53,10 @@ export const RoomMeetingSlice = createSlice({
         }
       });
     },
-    stopAudioButton: (state) => {
+    stopAudioButton: (state, action) => {
       state.audio = !state.audio;
     },
-    stopVideoButton: (state) => {
+    stopVideoButton: (state, action) => {
       state.video = !state.video;
     },
     joinRoom: (state, action) => {
@@ -71,11 +71,15 @@ export const RoomMeetingSlice = createSlice({
       state.MemberInRoom = action.payload;
     },
     someOneDisconnect: (state, action) => {
-      let userDisconect = action.payload.idUserDisconnect;
-      const div = document.getElementsByClassName(userDisconect)[0];
-      if (div) {
-        div.remove();
+      state.MemberInRoom = action.payload.userCurrent;
+      let userDisconect = action.payload.userDisconect;
+      let videoGird = document.getElementById("video-grid");
+    
+      if (videoGird) {
+        videoGird.classList.remove(userDisconect);
       }
+
+      // const div = document.getElementsByClassName(userDisconect)[0];
     },
   },
   extraReducers: (builder) => {

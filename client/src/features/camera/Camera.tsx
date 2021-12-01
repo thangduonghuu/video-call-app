@@ -4,7 +4,7 @@ import { VideoCameraOutlined } from "@ant-design/icons";
 import { stopVideoButton } from "pages/Room/RoomSlice";
 import { useAppDispatch } from "app/hooks";
 
-const Camera = () => {
+const Camera = ({ SocketRoom }: any) => {
   const dispatch = useAppDispatch();
   const [isDisabled, setIsDisabled] = useState<Boolean>(false);
 
@@ -19,7 +19,7 @@ const Camera = () => {
             size="large"
             onClick={() => {
               setIsDisabled(true);
-              dispatch(stopVideoButton());
+              dispatch(stopVideoButton({ socket: SocketRoom }));
             }}
           />
         </Tooltip>
@@ -33,7 +33,7 @@ const Camera = () => {
             size="large"
             onClick={() => {
               setIsDisabled(false);
-              dispatch(stopVideoButton());
+              dispatch(stopVideoButton({ socket: SocketRoom }));
             }}
           />
         </Tooltip>

@@ -58,21 +58,31 @@ const Room = () => {
         })
       );
     });
+
+    socket.on("SomeOneJoin", async (userOnlineInRoom: any) => {
+      dispatch(someOneJoinRoom(userOnlineInRoom));
+    });
+    socket.on("someOneDisconnect", async (userOut: any) => {
+      dispatch(
+        someOneDisconnect({
+          userDisconect: userOut.idUserDisconnect,
+          userCurrent: userOut.usersCurrentInroom,
+        })
+      );
+    });
   }, []);
   // console.log(peer);
-  socket.on("SomeOneJoin", async (userOnlineInRoom: any) => {
-    dispatch(someOneJoinRoom(userOnlineInRoom));
-  });
-  socket.on("someOneDisconnect", async (userDisconect: any) => {
-    dispatch(someOneDisconnect(userDisconect));
-  });
 
   return (
     <div className="room-ctn">
       <Layout className="room">
         <Layout className="room__content">
           <Content className="room__content__grid">
-            <Grid SocketRoom={socket} connectionPeerjs={peer} userAvater={memeberInroom} />
+            <Grid
+              SocketRoom={socket}
+              connectionPeerjs={peer}
+              userAvater={memeberInroom}
+            />
           </Content>
           <Sider
             className="room__content__sider "
