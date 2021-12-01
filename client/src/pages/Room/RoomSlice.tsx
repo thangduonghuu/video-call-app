@@ -19,6 +19,10 @@ export const GetInfoUser = createAsyncThunk(
     return response.data;
   }
 );
+export const CheckRoomExists = createAsyncThunk(
+  "Room/infoUser",
+  async (user: any) => {}
+);
 export const RoomMeetingSlice = createSlice({
   name: "RoomMeeting",
   initialState,
@@ -30,7 +34,6 @@ export const RoomMeetingSlice = createSlice({
         }
       });
     },
-
     // stop only camera
     stopVideoOnly: (state, action) => {
       action.payload.getTracks().forEach(function (track: any) {
@@ -42,7 +45,6 @@ export const RoomMeetingSlice = createSlice({
       });
       // state.video = !state.video;
     },
-
     // stop only mic
     stopAudioOnly: (state, action) => {
       action.payload.getTracks().forEach(function (track: any) {
@@ -57,6 +59,11 @@ export const RoomMeetingSlice = createSlice({
       state.audio = !state.audio;
     },
     stopVideoButton: (state, action) => {
+      action.payload.socket.emit("close_camera", {
+        username: localStorage.getItem("username"),
+        avatar: localStorage.getItem("avatar"),
+        currentRoom: localStorage.getItem("currentRoom"),
+      });
       state.video = !state.video;
     },
     joinRoom: (state, action) => {
@@ -74,11 +81,9 @@ export const RoomMeetingSlice = createSlice({
       state.MemberInRoom = action.payload.userCurrent;
       let userDisconect = action.payload.userDisconect;
       let videoGird = document.getElementById("video-grid");
-    
       if (videoGird) {
         videoGird.classList.remove(userDisconect);
       }
-
       // const div = document.getElementsByClassName(userDisconect)[0];
     },
   },

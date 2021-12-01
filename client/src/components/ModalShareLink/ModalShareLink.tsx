@@ -8,7 +8,7 @@ const { Title, Text, Paragraph } = Typography;
 
 export interface Props {
   visible: boolean;
-  handleVisible: () => void;
+  handleVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ModalShareLink: FC<Props> = (props) => {
@@ -22,7 +22,7 @@ const ModalShareLink: FC<Props> = (props) => {
       footer={null}
       width={400}
       visible={visible}
-      onCancel={handleVisible}
+      onCancel={() => handleVisible(false)}
     >
       <Space direction="vertical" size="large">
         <Title level={5}>Your meeting's ready</Title>
