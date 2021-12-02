@@ -2,7 +2,13 @@ import { useAppDispatch } from "app/hooks";
 import React, { useEffect, useRef, useState } from "react";
 import { selectuserInRoom } from "pages/Room/RoomSlice";
 
-const VideoCall = ({ connectionPeerjs, CallTo, nameId, MyVideoCall }: any) => {
+const VideoCall = ({
+  connectionPeerjs,
+  CallTo,
+  nameId,
+  MyVideoCall,
+  styles,
+}: any) => {
   const MyVideo = React.useRef<any>();
 
   useEffect(() => {
@@ -16,7 +22,7 @@ const VideoCall = ({ connectionPeerjs, CallTo, nameId, MyVideoCall }: any) => {
       });
       // if()
       // console.log(document.getElementsByClassName(nameId));
-      
+
       call.on("stream", (remoteStream: any) => {
         if (MyVideo.current != null) {
           MyVideo.current.srcObject = remoteStream;
@@ -24,7 +30,15 @@ const VideoCall = ({ connectionPeerjs, CallTo, nameId, MyVideoCall }: any) => {
       });
     } catch (err) {}
   }, []);
-  return <video className={nameId} ref={MyVideo} autoPlay muted></video>;
+  return (
+    <video
+      style={styles}
+      className={nameId}
+      ref={MyVideo}
+      autoPlay
+      muted
+    ></video>
+  );
 };
 
 export default VideoCall;
