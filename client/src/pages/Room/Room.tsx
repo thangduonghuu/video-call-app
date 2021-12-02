@@ -76,20 +76,34 @@ const Room = () => {
     socket.on("SomeOneJoin", async (userOnlineInRoom: any) => {
       dispatch(someOneJoinRoom(userOnlineInRoom));
     });
+    socket.on("memberInRoom", (users: any) => {
+      dispatch(someOneJoinRoom(users));
+    });
     socket.on("someOneDisconnect", async (userOut: any) => {
-      dispatch(
-        someOneDisconnect({
-          userDisconect: userOut.idUserDisconnect,
-          userCurrent: userOut.usersCurrentInroom,
-        })
-      );
+      try {
+        let allvideo = document.querySelectorAll("video");
+        setTimeout(function () {
+          allvideo.forEach((video) => {
+            if (video.className == userOut.idUserDisconnect) {
+              video.remove();
+            }
+          });
+        }, 2000);
+
+        dispatch(
+          someOneDisconnect({
+            userDisconect: userOut.idUserDisconnect,
+            userCurrent: userOut.usersCurrentInroom,
+          })
+        );
+      } catch (err) {
+        console.log(err);
+      }
     });
     socket.on("newUserJoin", (data: any) => {
       message.info(data.message);
     });
-    socket.on('SomeOneCloseCamara' , async (data: any) => {
-      
-    })
+    socket.on("SomeOneCloseCamara", async (data: any) => {});
   }, []);
   // console.log(peer);
 

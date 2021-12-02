@@ -25,7 +25,7 @@ export const MeetingRoom = {
         `${API}/MeetingRoom/CheckMeetingRoom`,
         {
           owner: window.localStorage.getItem("owner"),
-          RoomName: params.roomId,
+          roomName: params.roomId,
         },
         { withCredentials: true }
       )
