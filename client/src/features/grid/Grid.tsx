@@ -38,11 +38,16 @@ const Grid = ({ SocketRoom, connectionPeerjs, userAvater }: any) => {
       });
     connectionPeerjs.on('call', (call: any) => {
       call.answer(MyVideo.current.srcObject);
-      call.on('stream', (remoteStream: any) => {
-        let videoGird = document.getElementById('video-grid');
-        if (videoGird) {
-          videoGird.classList.remove(call.options.metadata);
-        }
+      call.on("stream", (remoteStream: any) => {
+        let videoGird = document.getElementById("video-grid");
+        let allvideo = document.querySelectorAll("video");
+        // setTimeout(function () {
+        //   allvideo.forEach((video) => {
+        //     if (video.className == userOut.idUserDisconnect) {
+        //       video.remove();
+        //     }
+        //   });
+        // }, 2000);
         if (
           document.getElementsByClassName(call.options.metadata)[0] == undefined
         ) {

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { accountApi } from "api/accountApi";
+import { MeetingRoom } from "api/MeetingAPI";
 import { RootState } from "app/store";
 import { RoomMeeting } from "constants/RoomMeeting";
 
@@ -20,8 +21,11 @@ export const GetInfoUser = createAsyncThunk(
   }
 );
 export const CheckRoomExists = createAsyncThunk(
-  "Room/infoUser",
-  async (user: any) => {}
+  "Room/CheckMeetingRoomIsExists",
+  async (RoomId: any) => {
+    const response: any = await MeetingRoom.CheckMeetingRoomIsExists(RoomId);
+    return response.data;
+  }
 );
 export const RoomMeetingSlice = createSlice({
   name: "RoomMeeting",
@@ -81,11 +85,10 @@ export const RoomMeetingSlice = createSlice({
     someOneDisconnect: (state, action) => {
       state.MemberInRoom = action.payload.userCurrent;
       let userDisconect = action.payload.userDisconect;
-      let videoGird = document.getElementById("video-grid");
-      if (videoGird) {
-        videoGird.classList.remove(userDisconect);
-      }
-
+      // let videoGird = document.getElementById("video-grid");
+      // if (videoGird) {
+      //   videoGird.classList.remove(userDisconect);
+      // }
     },
   },
   extraReducers: (builder) => {

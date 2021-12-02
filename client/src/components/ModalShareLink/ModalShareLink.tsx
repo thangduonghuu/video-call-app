@@ -29,7 +29,7 @@ const ModalShareLink: FC<Props> = (props) => {
         <Text>Share this meeting link with others you want in the meeting</Text>
         <div className="link-box">
           <Paragraph className="paragraph-link-box" copyable ellipsis>
-            {location.pathname}
+            {"http://localhost:3000"+location.pathname}
           </Paragraph>
         </div>
         <Space>
