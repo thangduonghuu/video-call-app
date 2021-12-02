@@ -65,4 +65,14 @@ export const accountApi = {
         console.log(error);
       });
   },
+  updateImage: (params: any) => {
+    return axios
+      .post(`http://localhost:4000/user/changeAvatar`, params)
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
 };

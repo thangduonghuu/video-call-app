@@ -9,13 +9,13 @@ import {
   message,
   List,
   Avatar,
-} from 'antd';
-import Camera from 'features/camera/Camera';
-import Micro from 'features/micro/Micro';
-import Stop from 'features/stop/Stop';
-import React, { useEffect, useState } from 'react';
-import Peer from 'peerjs';
-import './Room.scss';
+} from "antd";
+import Camera from "features/camera/Camera";
+import Micro from "features/micro/Micro";
+import Stop from "features/stop/Stop";
+import React, { useEffect, useState } from "react";
+import Peer from "peerjs";
+import "./Room.scss";
 import {
   TeamOutlined,
   MessageOutlined,
@@ -23,22 +23,22 @@ import {
   UserDeleteOutlined,
   UserAddOutlined,
   UserOutlined,
-} from '@ant-design/icons';
-import Chat from 'features/chat/Chat';
-import Grid from 'features/grid/Grid';
-import { useAppDispatch, useAppSelector } from 'app/hooks';
+} from "@ant-design/icons";
+import Chat from "features/chat/Chat";
+import Grid from "features/grid/Grid";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 import {
   joinRoom,
   someOneJoinRoom,
   someOneDisconnect,
   selectuserInRoom,
   GetInfoUser,
-} from './RoomSlice';
+} from "./RoomSlice";
 
-import { useLocation } from 'react-router-dom';
-import { io, Socket } from 'socket.io-client';
-import { DefaultEventsMap } from '@socket.io/component-emitter';
-import ModalShareLink from 'components/ModalShareLink/ModalShareLink';
+import { useLocation } from "react-router-dom";
+import { io, Socket } from "socket.io-client";
+import { DefaultEventsMap } from "@socket.io/component-emitter";
+import ModalShareLink from "components/ModalShareLink/ModalShareLink";
 // import {   } from "pages/Room/RoomSlice";
 const { Title, Text } = Typography;
 // let peer = new Peer({
@@ -47,11 +47,11 @@ const { Title, Text } = Typography;
 //   port: 443,
 // });
 let peer = new Peer({
-  host: '/',
+  host: "/",
   port: 3002,
 });
 // let socket = io('servervideocall.herokuapp.com');
-let socket = io('http://localhost:4000');
+let socket = io("http://localhost:4000");
 const { Content, Header, Footer, Sider } = Layout;
 const Room = () => {
   const dispatch = useAppDispatch();
@@ -61,21 +61,22 @@ const Room = () => {
   const currentURL = useLocation();
 
   useEffect(() => {
-    dispatch(GetInfoUser({ owner: localStorage.getItem('owner') }));
-    peer.on('open', async (id) => {
-      await localStorage.setItem('peerid', id);
-      socket.emit('join_room', {
-        username: localStorage.getItem('username'),
+    dispatch(GetInfoUser({ owner: localStorage.getItem("owner") }));
+    peer.on("open", async (id) => {
+      await localStorage.setItem("peerid", id);
+      localStorage.setItem("currentRoom", currentURL.pathname.slice(13));
+      socket.emit("join_room", {
+        username: localStorage.getItem("username"),
         room_id: currentURL.pathname.slice(13),
-        ownerId: localStorage.getItem('owner'),
+        ownerId: localStorage.getItem("owner"),
         peerId: id,
-        avatar: localStorage.getItem('avatar'),
+        avatar: localStorage.getItem("avatar"),
       });
     });
-    socket.on('SomeOneJoin', async (userOnlineInRoom: any) => {
+    socket.on("SomeOneJoin", async (userOnlineInRoom: any) => {
       dispatch(someOneJoinRoom(userOnlineInRoom));
     });
-    socket.on('someOneDisconnect', async (userOut: any) => {
+    socket.on("someOneDisconnect", async (userOut: any) => {
       dispatch(
         someOneDisconnect({
           userDisconect: userOut.idUserDisconnect,
@@ -83,9 +84,12 @@ const Room = () => {
         })
       );
     });
-    socket.on('newUserJoin', (data: any) => {
+    socket.on("newUserJoin", (data: any) => {
       message.info(data.message);
     });
+    socket.on('SomeOneCloseCamara' , async (data: any) => {
+      
+    })
   }, []);
   // console.log(peer);
 
@@ -105,7 +109,11 @@ const Room = () => {
             width={350}
             hidden={isHiddenSiderMember}
           >
-            <Space size="large" direction="vertical" className="room__content__sider__space-list">
+            <Space
+              size="large"
+              direction="vertical"
+              className="room__content__sider__space-list"
+            >
               <Title level={3}>Member</Title>
               <List
                 itemLayout="horizontal"
@@ -118,12 +126,12 @@ const Room = () => {
                       }
                       title={
                         <>
-                          <b style={{ margin: '0px' }}>{item.username}</b>
+                          <b style={{ margin: "0px" }}>{item.username}</b>
                           <Tooltip title="Kick this user">
                             <Button
                               danger
                               type="link"
-                              shape={'circle'}
+                              shape={"circle"}
                               icon={<UserDeleteOutlined />}
                             />
                           </Tooltip>
