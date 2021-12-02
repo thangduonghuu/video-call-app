@@ -15,19 +15,15 @@ export const GetInfoUser = createAsyncThunk(
 export const CreateAMeeting = createAsyncThunk(
   "MeetingRoom/CreateAMeeting",
   async (user: any) => {
-    console.log(MeetingRoom.CreateMeeting);
-
     const response: any = await MeetingRoom.CreateMeeting(user);
-    console.log(response);
-
     return response.data;
   }
 );
 
 const initialState: AccountState = {
-  owner: "string",
-  username: "string",
-  avatarUrl: "string",
+  owner: "",
+  username: "",
+  avatarUrl: "",
   loadding: true,
 };
 
@@ -40,6 +36,9 @@ export const HomePageSlice = createSlice({
         RoomId: action.payload.roomId,
         UserRoom: localStorage.getItem("owner"),
       });
+    },
+    uploadAvatar: (state, action) => {
+      state.avatarUrl = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -54,6 +53,7 @@ export const HomePageSlice = createSlice({
         state.username = action.payload.username;
         state.avatarUrl = action.payload.avatar;
         localStorage.setItem("username", action.payload.username);
+        localStorage.setItem("avatar", action.payload.avatar);
       }
       /// commet khi chay online
       // else {
@@ -71,7 +71,6 @@ export const HomePageSlice = createSlice({
       state.loadding = false;
     });
     builder.addCase(CreateAMeeting.fulfilled, (state, action) => {
-      console.log(action.payload.isSuccess);
       if (action.payload.isSuccess) {
         window.location.replace(
           `http://localhost:3000/MeetingRoom/${action.payload.roomId}`
@@ -85,5 +84,5 @@ export const HomePageSlice = createSlice({
 });
 
 export default HomePageSlice.reducer;
-export const { createAroom } = HomePageSlice.actions;
+export const { createAroom, uploadAvatar } = HomePageSlice.actions;
 export const selectHomePageUser = (state: RootState) => state.HomePage;

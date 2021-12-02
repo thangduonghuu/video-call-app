@@ -62,6 +62,7 @@ export const RoomMeetingSlice = createSlice({
       action.payload.socket.emit("close_camera", {
         username: localStorage.getItem("username"),
         avatar: localStorage.getItem("avatar"),
+        ownerId: localStorage.getItem("owner"),
         currentRoom: localStorage.getItem("currentRoom"),
       });
       state.video = !state.video;
@@ -84,7 +85,7 @@ export const RoomMeetingSlice = createSlice({
       if (videoGird) {
         videoGird.classList.remove(userDisconect);
       }
-      // const div = document.getElementsByClassName(userDisconect)[0];
+
     },
   },
   extraReducers: (builder) => {

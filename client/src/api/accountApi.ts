@@ -1,8 +1,8 @@
 import axios from "axios";
 import { SignInInput, SignUpInput, AccountState } from "constants/AccountType";
 
-const API = "https://servervideocall.herokuapp.com";
-// const API = "http://localhost:4000";
+// const API = "https://servervideocall.herokuapp.com";
+const API = "http://localhost:4000";
 
 export const accountApi = {
   signIn: (params: SignInInput) => {
@@ -58,6 +58,16 @@ export const accountApi = {
         },
         { withCredentials: true }
       )
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+  updateImage: (params: any) => {
+    return axios
+      .post(`http://localhost:4000/user/changeAvatar`, params)
       .then((response) => {
         return response;
       })
