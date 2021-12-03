@@ -19,4 +19,10 @@ export type AccountState = {
   username: string;
   avatarUrl: string;
   loadding: Boolean;
+  rooms: Array<Room>
 };
+
+export type Room = {
+  name: string;
+  createAt: any;
+}

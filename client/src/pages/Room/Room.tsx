@@ -35,7 +35,7 @@ import {
   GetInfoUser,
 } from "./RoomSlice";
 
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 import { DefaultEventsMap } from "@socket.io/component-emitter";
 import ModalShareLink from "components/ModalShareLink/ModalShareLink";
@@ -105,7 +105,15 @@ const Room = () => {
     });
     socket.on("SomeOneCloseCamara", async (data: any) => {});
   }, []);
-  // console.log(peer);
+  
+  let history = useHistory();
+
+  const exitRoom = () => {
+    message.loading('Loading...', 0.2);
+    setTimeout(() => {
+      history.push('/home');
+    }, 500)
+  }
 
   return (
     <div className="room-ctn">
@@ -173,7 +181,7 @@ const Room = () => {
                   />
                 </Tooltip>
                 <Micro />
-                <Stop />
+                <Stop exit={exitRoom} />
                 <Camera socket={socket} />
                 <Tooltip title="Share this room">
                   <Button

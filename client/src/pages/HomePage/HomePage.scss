@@ -24,6 +24,31 @@
       height: 800px;
       width: 50%;
 
+      &__list-rooms {
+        width: 100%;
+        padding: 1rem;
+        max-height: 200px;
+        overflow-x: auto;
+        &__room {
+          width: 90%;
+          height: 70px;
+          box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px,
+            rgba(0, 0, 0, 0.05) 0px 5px 10px;
+          padding: 1rem;
+          border-radius: 0.5rem;
+          cursor: pointer;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          background-color: #1890ff;
+          color: #fff;
+
+          & .ant-badge-status-text {
+            color: #fff !important;
+          }
+        }
+      }
+
       &__text-ctn {
         width: 500px;
       }
