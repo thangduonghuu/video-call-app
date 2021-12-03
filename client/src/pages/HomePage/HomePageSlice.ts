@@ -1,11 +1,11 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { accountApi } from "api/accountApi";
-import { MeetingRoom } from "api/MeetingAPI";
-import { RootState } from "app/store";
-import { AccountState } from "constants/AccountType";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { accountApi } from 'api/accountApi';
+import { MeetingRoom } from 'api/MeetingAPI';
+import { RootState } from 'app/store';
+import { AccountState } from 'constants/AccountType';
 
 export const GetInfoUser = createAsyncThunk(
-  "Home/infoUser",
+  'Home/infoUser',
   async (user: any) => {
     const response: any = await accountApi.UserInfo(user);
     return response.data;
@@ -13,7 +13,7 @@ export const GetInfoUser = createAsyncThunk(
 );
 
 export const CreateAMeeting = createAsyncThunk(
-  "MeetingRoom/CreateAMeeting",
+  'MeetingRoom/CreateAMeeting',
   async (user: any) => {
     const response: any = await MeetingRoom.CreateMeeting(user);
     return response.data;
@@ -21,20 +21,38 @@ export const CreateAMeeting = createAsyncThunk(
 );
 
 const initialState: AccountState = {
-  owner: "",
-  username: "",
-  avatarUrl: "",
+  owner: '',
+  username: '',
+  avatarUrl: '',
   loadding: true,
+  rooms: [
+    {
+      name: 'djaiwjdaiowjd192391823jadiow',
+      createAt: '',
+    },
+    {
+      name: 'Chat sex real-time',
+      createAt: '',
+    },
+    {
+      name: 'Phu nguyen suc cac',
+      createAt: '',
+    },
+    {
+      name: 'Phu nguyen suc cac',
+      createAt: '',
+    },
+  ],
 };
 
 export const HomePageSlice = createSlice({
-  name: "HomePage",
+  name: 'HomePage',
   initialState,
   reducers: {
     createAroom: (state, action) => {
-      action.payload.socketId.emit("create_room", {
+      action.payload.socketId.emit('create_room', {
         RoomId: action.payload.roomId,
-        UserRoom: localStorage.getItem("owner"),
+        UserRoom: localStorage.getItem('owner'),
       });
     },
     uploadAvatar: (state, action) => {
@@ -52,8 +70,8 @@ export const HomePageSlice = createSlice({
       if (action.payload.isSuccess) {
         state.username = action.payload.username;
         state.avatarUrl = action.payload.avatar;
-        localStorage.setItem("username", action.payload.username);
-        localStorage.setItem("avatar", action.payload.avatar);
+        localStorage.setItem('username', action.payload.username);
+        localStorage.setItem('avatar', action.payload.avatar);
       }
       /// commet khi chay online
       // else {
