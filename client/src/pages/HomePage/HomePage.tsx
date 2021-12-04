@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useState } from 'react';
-import './HomePage.scss';
+import React, { FC, useEffect, useState } from "react";
+import "./HomePage.scss";
 import {
   Avatar,
   Layout,
@@ -14,40 +14,41 @@ import {
   Button,
   List,
   Badge,
-} from 'antd';
-import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
-import Clock from 'react-live-clock';
-import CreateMeeting from 'features/createMeeting/CreateMeeting';
-import JoinMeeting from 'features/joinMeeting/JoinMeeting';
-import Lottie from 'react-lottie';
-import homePageIcon from 'lotties/home-page.json';
-import { accountApi } from 'api/accountApi';
+} from "antd";
+import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
+import Clock from "react-live-clock";
+import CreateMeeting from "features/createMeeting/CreateMeeting";
+import JoinMeeting from "features/joinMeeting/JoinMeeting";
+import Lottie from "react-lottie";
+import homePageIcon from "lotties/home-page.json";
+import { accountApi } from "api/accountApi";
 import {
   GetInfoUser,
   selectHomePageUser,
   createAroom,
   uploadAvatar,
-} from './HomePageSlice';
-import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { Room } from 'constants/AccountType';
-import { useHistory } from 'react-router';
+  ListAllMeeting,
+} from "./HomePageSlice";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { Room } from "constants/AccountType";
+import { useHistory } from "react-router";
 const { Header, Content } = Layout;
 const { Title, Text } = Typography;
 
 function getBase64(img: any, callback: any) {
   const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
+  reader.addEventListener("load", () => callback(reader.result));
   reader.readAsDataURL(img);
 }
 
 function beforeUpload(file: any) {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
   if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
+    message.error("You can only upload JPG/PNG file!");
   }
   const isLt2M = file.size / 1024 / 1024 < 2;
   if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
+    message.error("Image must smaller than 2MB!");
   }
   return isJpgOrPng && isLt2M;
 }
@@ -55,7 +56,8 @@ function beforeUpload(file: any) {
 const HomePage = ({ SocketRoom }: any) => {
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(GetInfoUser({ owner: localStorage.getItem('owner') }));
+    dispatch(GetInfoUser({ owner: localStorage.getItem("owner") }));
+    dispatch(ListAllMeeting({ owner: localStorage.getItem("owner") }));
   }, []);
   let UserInfo = useAppSelector(selectHomePageUser);
 
@@ -71,11 +73,11 @@ const HomePage = ({ SocketRoom }: any) => {
   );
 
   const handleChange = (info: any) => {
-    if (info.file.status === 'uploading') {
+    if (info.file.status === "uploading") {
       setLoading(true);
       return;
     }
-    if (info.file.status === 'done') {
+    if (info.file.status === "done") {
       // Get this url from response in real world.
       console.log(info);
       getBase64(info.file.originFileObj, (imageUrl: any) => {
@@ -88,11 +90,11 @@ const HomePage = ({ SocketRoom }: any) => {
 
   const dummyRequest = ({ file, onSuccess }: any) => {
     let data = new FormData();
-    data.append('file', file);
-    data.append('owners', localStorage.getItem('owner') || '');
+    data.append("file", file);
+    data.append("owners", localStorage.getItem("owner") || "");
     accountApi.updateImage(data);
     setTimeout(() => {
-      onSuccess('ok');
+      onSuccess("ok");
     }, 500);
   };
 
@@ -100,23 +102,24 @@ const HomePage = ({ SocketRoom }: any) => {
   let history = useHistory();
   const rooms: Array<Room> = useAppSelector((state) => state.HomePage.rooms);
   const handleJoinRoom = (name: string) => {
-    history.push(`/${name}`);
-  }
+    history.push(`/MeetingRoom/${name}`);
+  };
+  console.log(rooms);
 
   return (
     <div className="home-page-container">
       <Layout className="home-page">
         <Header className="home-page__header">
           <PageHeader
-            onBack={() => (window.location.href = '/welcome')}
+            onBack={() => (window.location.href = "/welcome")}
             title="Meet"
             subTitle="Home page"
             extra={[
               <Space size="large">
                 <Space>
-                  <Title level={5} style={{ margin: '0px' }}>
+                  <Title level={5} style={{ margin: "0px" }}>
                     <Clock
-                      format={'MMMM Mo, YYYY • h:mm:ss A'}
+                      format={"MMMM Mo, YYYY • h:mm:ss A"}
                       ticking={true}
                     />
                   </Title>
@@ -153,7 +156,7 @@ const HomePage = ({ SocketRoom }: any) => {
                   >
                     <Avatar src={UserInfo.avatarUrl} />
                   </Button>
-                  <Title level={5} style={{ margin: '0px' }}>
+                  <Title level={5} style={{ margin: "0px" }}>
                     {UserInfo.username}
                   </Title>
                 </Space>
@@ -189,7 +192,10 @@ const HomePage = ({ SocketRoom }: any) => {
                 >
                   {rooms.map((item) => {
                     return (
-                      <div className="home-page__content__col__list-rooms__room" onClick={() => handleJoinRoom(item.name)}>
+                      <div
+                        className="home-page__content__col__list-rooms__room"
+                        onClick={() => handleJoinRoom(item.name)}
+                      >
                         <b>{item.name}</b>
                         <Badge status="success" text="Available" />
                       </div>
@@ -211,7 +217,7 @@ const Icon = () => {
     autoplay: true,
     animationData: homePageIcon,
     rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
+      preserveAspectRatio: "xMidYMid slice",
     },
   };
   return (
