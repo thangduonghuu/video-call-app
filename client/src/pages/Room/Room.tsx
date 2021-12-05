@@ -84,7 +84,7 @@ const Room = () => {
         let allvideo = document.querySelectorAll("video");
         setTimeout(function () {
           allvideo.forEach((video) => {
-            if (video.className == userOut.idUserDisconnect) {
+            if (video.id == userOut.idUserDisconnect) {
               video.remove();
             }
           });

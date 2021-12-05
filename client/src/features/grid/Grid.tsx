@@ -8,6 +8,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { useSelector } from 'react-redux';
 import VideoCall from 'features/videoCall/videoCall';
+import './Grid.scss';
 
 const Grid = ({ SocketRoom, connectionPeerjs, userAvater }: any) => {
   const dataGrid = useSelector(selectuserInRoom).MemberInRoom;
@@ -38,14 +39,13 @@ const Grid = ({ SocketRoom, connectionPeerjs, userAvater }: any) => {
       });
     connectionPeerjs.on('call', (call: any) => {
       call.answer(MyVideo.current.srcObject);
-      call.on("stream", (remoteStream: any) => {
-        let videoGird = document.getElementById("video-grid");
-        let allvideo = document.querySelectorAll("video");
-        if (
-          document.getElementsByClassName(call.options.metadata)[0] == undefined
-        ) {
+      call.on('stream', (remoteStream: any) => {
+        let videoGird = document.getElementById('video-grid');
+        let allvideo = document.querySelectorAll('video');
+        if (document.getElementById(call.options.metadata) == undefined) {
           let videoTest = document.createElement('video');
-          videoTest.className = call.options.metadata;
+          videoTest.id = call.options.metadata;
+          videoTest.className = 'grid-container__video-tag';
           videoTest.srcObject = remoteStream;
           videoTest.autoplay = true;
           if (videoGird) {
@@ -71,64 +71,30 @@ const Grid = ({ SocketRoom, connectionPeerjs, userAvater }: any) => {
     } catch (e) {}
   }, [video]);
   return (
-    <div id="video-grid" style={{ width: '100%', height: '100%' }}>
-      <Row
-        style={{ width: '100%', height: '100%', overflow: 'auto' }}
-        gutter={[16, 16]}
-      >
-        <Col
-          span={dataGrid.length + 1 < 4 ? 24 / (dataGrid.length + 1) : 6}
-          style={{ display: 'flex', alignItems: 'center' }}
-        >
-          {device ? (
-            <video
-              style={
-                dataGrid.length + 1 <= 4
-                  ? {
-                      width: '100%',
-                      height: 'auto',
-                      maxHeight: '825px',
-                      borderRadius: '1rem',
-                    }
-                  : {
-                      width: '100%',
-                      height: '100%',
-                      maxHeight: '825px',
-                      borderRadius: '1rem',
-                    }
-              }
-              ref={MyVideo}
-              autoPlay
-              muted
-            ></video>
-          ) : (
-            <img width="100%" src={userAvater.avatarUrl} alt="avatar"></img>
-          )}
-        </Col>
+    <div id="video-grid" className="grid-container">
+      {device ? (
+        <video
+          className="grid-container__video-tag"
+          ref={MyVideo}
+          autoPlay
+          muted
+        ></video>
+      ) : (
+        <img width="100%" src={userAvater.avatarUrl} alt="avatar"></img>
+      )}
 
-        {dataGrid.length > 0 &&
-          dataGrid.map((video) => {
-            if (video.idUser != localStorage.getItem('owner')) {
-              if (MyVideo.current.srcObject) {
+      {dataGrid.length > 0 &&
+        dataGrid.map((video) => {
+          if (video.idUser != localStorage.getItem('owner')) {
+            if (MyVideo.current.srcObject) {
               return (
-                <Col
-                  span={
-                    dataGrid.length + 1 < 4 ? 24 / (dataGrid.length + 1) : 6
-                  }
-                  style={{ display: 'flex', alignItems: 'center' }}
-                >
+                <>
                   {dataGrid.length + 1 <= 4 ? (
                     <VideoCall
                       MyVideoCall={MyVideo.current.srcObject}
                       nameId={video.idUser}
                       connectionPeerjs={connectionPeerjs}
                       CallTo={video.peerId}
-                      styles={{
-                        width: '100%',
-                        height: 'auto',
-                        maxHeight: '825px',
-                        borderRadius: '1rem',
-                      }}
                     />
                   ) : (
                     <VideoCall
@@ -136,20 +102,13 @@ const Grid = ({ SocketRoom, connectionPeerjs, userAvater }: any) => {
                       nameId={video.idUser}
                       connectionPeerjs={connectionPeerjs}
                       CallTo={video.peerId}
-                      styles={{
-                        width: '100%',
-                        height: '100%',
-                        maxHeight: '825px',
-                        borderRadius: '1rem',
-                      }}
                     />
                   )}
-                </Col>
+                </>
               );
-              }
             }
-          })}
-      </Row>
+          }
+        })}
     </div>
   );
 };
