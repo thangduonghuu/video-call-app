@@ -1,6 +1,6 @@
 import axios from "axios";
-// const API = "https://servervideocall.herokuapp.com";
-const API = "http://localhost:4000";
+const API = "https://servervideocall.herokuapp.com";
+// const API = "http://localhost:4000";
 export const MeetingRoom = {
   CreateMeeting: (params: any) => {
     return axios
