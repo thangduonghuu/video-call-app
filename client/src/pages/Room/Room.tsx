@@ -81,6 +81,7 @@ const Room = () => {
     });
     socket.on("someOneDisconnect", async (userOut: any) => {
       try {
+        message.info(userOut.messages);
         let allvideo = document.querySelectorAll("video");
         setTimeout(function () {
           allvideo.forEach((video) => {
@@ -111,7 +112,7 @@ const Room = () => {
   const exitRoom = () => {
     message.loading('Loading...', 0.2);
     setTimeout(() => {
-      history.push('/home');
+      window.location.replace('http://localhost:3000/home');
     }, 500)
   }
 

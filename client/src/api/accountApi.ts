@@ -67,7 +67,7 @@ export const accountApi = {
   },
   updateImage: (params: any) => {
     return axios
-      .post(`http://localhost:4000/user/changeAvatar`, params)
+      .post(`${API}/user/changeAvatar`, params)
       .then((response) => {
         return response;
       })

@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { message } from 'antd';
 import { accountApi } from 'api/accountApi';
 import { SignState, SignUpInput } from 'constants/AccountType';
 import { useHistory } from 'react-router';
@@ -31,7 +32,9 @@ export const signUpSlice = createSlice({
       state.error = 'Login Failed!';
     });
     builder.addCase(signUp.fulfilled, (state, action) => {
-        
+        if(action.payload.isSuccess){
+          message.info(' Đăng Ký thành công')
+        }
     });
   },
 });
